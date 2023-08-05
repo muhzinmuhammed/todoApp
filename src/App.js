@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -6,10 +6,14 @@ function App() {
   const [toDo, setToDo] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editedText, setEditedText] = useState('');
+  const inputRef=useRef('')
 
   const handleAddTodo = () => {
     if (toDo.trim() === '') return; // Prevent adding empty tasks
-    setToDos([...toDos, { id: Date.now(), text: toDo, status: false }]);
+ const inputValue=inputRef.current.value;
+ 
+    setToDos([...toDos, { id: Date.now(), text: inputValue, status: false }]);
+    
     setToDo(''); // Clear the input after adding the task
   };
 
@@ -36,6 +40,8 @@ function App() {
     }
   };
 
+  
+
   return (
     <div className="app">
       <div className="mainHeading">
@@ -47,7 +53,7 @@ function App() {
       </div>
       <div className="input">
         <input
-          value={toDo}
+          ref={inputRef}
           onChange={(e) => setToDo(e.target.value)}
           type="text"
           placeholder="🖊 Add item..."
@@ -96,8 +102,11 @@ function App() {
                 className="fas fa-times"
               ></i>
             </div>
+           
+
           </div>
         ))}
+            
       </div>
     </div>
   );
